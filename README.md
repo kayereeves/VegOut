@@ -1,6 +1,9 @@
 # vegout
 
-VegOut
+VegOut<br>
+Kaye Reeves<br>
+CS 4750<br>
+Fall 2021<br>
 
 ## Getting Started
 
