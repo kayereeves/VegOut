@@ -66,9 +66,12 @@ class _HomeState extends State<Home> {
   }
 }
 
-class Map extends StatelessWidget {
-  const Map({Key? key}) : super(key: key);
+class Map extends StatefulWidget {
+  @override
+  _MapState createState() => _MapState();
+}
 
+class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +90,7 @@ class Map extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Home()),
+                          MaterialPageRoute(builder: (context) => Search()),
                         );
                       },
                     ),
@@ -114,8 +117,12 @@ class Map extends StatelessWidget {
   }
 }
 
-class About extends StatelessWidget {
-  const About({Key? key}) : super(key: key);
+class About extends StatefulWidget {
+  @override
+  _AboutState createState() => _AboutState();
+}
+
+class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +149,108 @@ class About extends StatelessWidget {
                     );
                   },
                 ),
+                ),
+              ]
+          )
+      ),
+    );
+  }
+}
+
+class Search extends StatefulWidget {
+  @override
+  _SearchState createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Search"),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+          child: Column(
+              children: <Widget> [
+                Center(
+                  child: Image.asset('resources/placeholder_icon.png'),
+                ),
+                Center(
+                    child: Text("search results", textAlign: TextAlign.center,)
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('dummy search result'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Menu()),
+                      );
+                    },
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('back'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Map()),
+                      );
+                    },
+                  ),
+                ),
+              ]
+          )
+      ),
+    );
+  }
+}
+
+class Menu extends StatefulWidget {
+  @override
+  _MenuState createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Menu"),
+        backgroundColor: Colors.green,
+      ),
+      body: Center(
+          child: Column(
+              children: <Widget> [
+                Center(
+                  child: Image.asset('resources/placeholder_icon.png'),
+                ),
+                Center(
+                    child: Text("menu data will be displayed here, probably retrieved via web scraper", textAlign: TextAlign.center,)
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('return to search'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Search()),
+                      );
+                    },
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('back'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Map()),
+                      );
+                    },
+                  ),
                 ),
               ]
           )
