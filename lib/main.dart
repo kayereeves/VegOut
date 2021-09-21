@@ -1,26 +1,39 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'Navigation Basics',
-    home: VegOut(),
-  ));
+  runApp(VegApp());
 }
 
-class VegOut extends StatelessWidget {
-  const VegOut({Key? key}) : super(key: key);
+class VegApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.green)
+            )
+        ),
+      ),
+      home: Home(),
+    );
+  }
+}
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('VegOut Home'),
+        backgroundColor: Colors.green,
       ),
       body: Center(
         child: Column(
@@ -33,7 +46,7 @@ class VegOut extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
+              MaterialPageRoute(builder: (context) => Map()),
             );
           },
         ),
@@ -42,7 +55,7 @@ class VegOut extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ThirdRoute()),
+                  MaterialPageRoute(builder: (context) => About()),
                 );
               },
             ),
@@ -53,23 +66,35 @@ class VegOut extends StatelessWidget {
   }
 }
 
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({Key? key}) : super(key: key);
+class Map extends StatelessWidget {
+  const Map({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Map"),
+        backgroundColor: Colors.green,
       ),
       body: Center(
           child: Column(
               children: <Widget> [
-                Center(
-                  child: Image.asset('resources/placeholder_icon.png'),
+                Row(
+                  children: <Widget> [
+                    Image.asset('resources/placeholder_icon.png'),
+                    ElevatedButton(
+                      child: Text('go'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Home()),
+                        );
+                      },
+                    ),
+                ]
                 ),
                 Center(
-                    child: Text("todo: get API key and set up Google Maps", textAlign: TextAlign.center,)
+                    child: Text("todo: get API key and integrate Google Maps", textAlign: TextAlign.center,)
                 ),
                 Center(
                   child: ElevatedButton(
@@ -77,18 +102,7 @@ class SecondRoute extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => VegOut()),
-                      );
-                    },
-                  ),
-                ),
-                Center(
-                  child: ElevatedButton(
-                    child: Text('search results page'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => VegOut()),
+                        MaterialPageRoute(builder: (context) => Home()),
                       );
                     },
                   ),
@@ -100,8 +114,8 @@ class SecondRoute extends StatelessWidget {
   }
 }
 
-class ThirdRoute extends StatelessWidget {
-  const ThirdRoute({Key? key}) : super(key: key);
+class About extends StatelessWidget {
+  const About({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +138,7 @@ class ThirdRoute extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VegOut()),
+                      MaterialPageRoute(builder: (context) => Home()),
                     );
                   },
                 ),
