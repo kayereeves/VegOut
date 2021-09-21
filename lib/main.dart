@@ -63,15 +63,38 @@ class SecondRoute extends StatelessWidget {
         title: Text("Map"),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => VegOut()),
-            );
-          },
-          child: Text('back'),
-        ),
+          child: Column(
+              children: <Widget> [
+                Center(
+                  child: Image.asset('resources/placeholder_icon.png'),
+                ),
+                Center(
+                    child: Text("todo: get API key and set up Google Maps", textAlign: TextAlign.center,)
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('back'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VegOut()),
+                      );
+                    },
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text('search results page'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VegOut()),
+                      );
+                    },
+                  ),
+                ),
+              ]
+          )
       ),
     );
   }
@@ -84,7 +107,7 @@ class ThirdRoute extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("About"),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.green,
       ),
       body: Center(
           child: Column(
@@ -112,3 +135,4 @@ class ThirdRoute extends StatelessWidget {
     );
   }
 }
+
