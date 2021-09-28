@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget> [
             Center(
-              child: Image.asset('resources/placeholder_icon.png'),
+              child: Image.asset('resources/mascot2.png'),
             ),
           ElevatedButton(
           child: Text('help me find a restaurant'),
@@ -72,46 +72,29 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Map"),
-        backgroundColor: Colors.green,
-      ),
-      body: Center(
-          child: Column(
-              children: <Widget> [
-                Row(
-                  children: <Widget> [
-                    Image.asset('resources/placeholder_icon.png'),
-                    ElevatedButton(
-                      child: Text('go'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Search()),
-                        );
-                      },
-                    ),
-                ]
-                ),
-                Center(
-                    child: Text("todo: get API key and integrate Google Maps", textAlign: TextAlign.center,)
-                ),
-                Center(
-                  child: ElevatedButton(
-                    child: Text('back'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
-                    },
-                  ),
-                ),
-              ]
-          )
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Map'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ),
       ),
     );
   }
@@ -134,7 +117,7 @@ class _AboutState extends State<About> {
           child: Column(
               children: <Widget> [
                 Center(
-                  child: Image.asset('resources/placeholder_icon.png'),
+                  child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
                 child: Text("about goes here", textAlign: TextAlign.center,)
@@ -174,7 +157,7 @@ class _SearchState extends State<Search> {
           child: Column(
               children: <Widget> [
                 Center(
-                  child: Image.asset('resources/placeholder_icon.png'),
+                  child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
                     child: Text("search results", textAlign: TextAlign.center,)
@@ -225,7 +208,7 @@ class _MenuState extends State<Menu> {
           child: Column(
               children: <Widget> [
                 Center(
-                  child: Image.asset('resources/placeholder_icon.png'),
+                  child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
                     child: Text("menu data will be displayed here, probably retrieved via web scraper", textAlign: TextAlign.center,)

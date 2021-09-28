@@ -3,6 +3,10 @@
    <application
         android:label="vegout"
         android:icon="@mipmap/ic_launcher">
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCE6cxltXWouX7_ElL7d5fgz67st2vANYI"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
