@@ -1,12 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'map.dart';
 import 'about.dart';
 import 'home.dart';
-import 'search.dart';
-import 'menu.dart';
+import 'search_recipe.dart';
 
 void main() {
   runApp(VegApp());

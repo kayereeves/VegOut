@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'home.dart';
 
 class About extends StatefulWidget {
@@ -23,16 +22,14 @@ class _AboutState extends State<About> {
                   child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
-                    child: Text("about goes here", textAlign: TextAlign.center,)
+                    child: Text("VegOut is designed to help you find and save recipes that fit your dietary needs",
+                      textAlign: TextAlign.center,)
                 ),
                 Center(
                   child: ElevatedButton(
                     child: Text('back'),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
+                      Navigator.pop(context);
                     },
                   ),
                 ),

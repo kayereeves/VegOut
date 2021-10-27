@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'map.dart';
+import 'package:vegout/search_recipe.dart';
 import 'about.dart';
 
 class Home extends StatefulWidget {
@@ -24,11 +23,11 @@ class _HomeState extends State<Home> {
                   child: Image.asset('resources/mascot2.png'),
                 ),
                 ElevatedButton(
-                  child: Text('help me find a restaurant'),
+                  child: Text('help me find a recipe'),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Map()),
+                      MaterialPageRoute(builder: (context) => SearchRecipe()),
                     );
                   },
                 ),

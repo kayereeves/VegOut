@@ -1,20 +1,31 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'menu.dart';
-import 'map.dart';
+import 'search_recipe_results.dart';
 
-class Search extends StatefulWidget {
+class SearchRecipeKeywords extends StatefulWidget {
+  final myController = TextEditingController();
+  final selection;
+  var keywords = "chili";
+
+  SearchRecipeKeywords({ this.selection });
+
   @override
-  _SearchState createState() => _SearchState();
+  _SearchRecipeKeywordsState createState() => _SearchRecipeKeywordsState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchRecipeKeywordsState extends State<SearchRecipeKeywords> {
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    widget.myController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        title: Text("Search for Recipes"),
         backgroundColor: Colors.green,
       ),
       body: Center(
@@ -24,15 +35,18 @@ class _SearchState extends State<Search> {
                   child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
-                    child: Text("search results", textAlign: TextAlign.center,)
+                    child: TextField(
+                        controller: widget.myController,
+                    ),
                 ),
                 Center(
                   child: ElevatedButton(
-                    child: Text('dummy search result'),
+                    child: Text('search'),
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Menu()),
+                        MaterialPageRoute(builder: (context) => SearchResults(selection: widget.selection,
+                            keywords: widget.myController.text)),
                       );
                     },
                   ),
@@ -41,10 +55,7 @@ class _SearchState extends State<Search> {
                   child: ElevatedButton(
                     child: Text('back'),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Map()),
-                      );
+                      Navigator.pop(context);
                     },
                   ),
                 ),
