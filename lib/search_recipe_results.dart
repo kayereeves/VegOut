@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchResults extends StatefulWidget {
   final selection;
@@ -16,6 +17,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
+  final myController = TextEditingController();
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController? webViewController;
@@ -91,13 +93,42 @@ class _SearchResultsState extends State<SearchResults> {
   void dispose() {
     super.dispose();
   }
+
+  _addFave(note, webAddress) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(note, webAddress);
+  }
+
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Add Favorite'),
+            content: TextField(
+              onChanged: (value) {
+
+              },
+              controller: myController,
+              decoration: InputDecoration(hintText: "Add a Note"),
+              onEditingComplete: () {
+                print(urlController.text);
+                _addFave(myController.text, urlController.text);
+                Navigator.pop(context);
+              },
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Search Results"),
-        //title: Text(widget.selection),
-        backgroundColor: Colors.green,
+        leading: BackButton(
+          color: Colors.deepOrangeAccent,
+        ),
       ),
       body: Center(
           child: Column(
@@ -222,6 +253,12 @@ class _SearchResultsState extends State<SearchResults> {
                       child: Icon(Icons.refresh),
                       onPressed: () {
                         webViewController?.reload();
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Icon(Icons.favorite),
+                      onPressed: () {
+                        _displayTextInputDialog(context);
                       },
                     ),
                   ],

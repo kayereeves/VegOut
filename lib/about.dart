@@ -13,7 +13,9 @@ class _AboutState extends State<About> {
     return Scaffold(
       appBar: AppBar(
         title: Text("About"),
-        backgroundColor: Colors.green,
+        leading: BackButton(
+            color: Colors.deepOrangeAccent,
+        ),
       ),
       body: Center(
           child: Column(
@@ -22,7 +24,13 @@ class _AboutState extends State<About> {
                   child: Image.asset('resources/mascot2.png'),
                 ),
                 Center(
-                    child: Text("VegOut is designed to help you find and save recipes that fit your dietary needs",
+                    child: Text("VegOut is designed to help you find and save recipes that fit your dietary needs."+
+                        " It uses an in-app web browser to search, filter, and view recipes online."+
+                      "\n\nVegOut may display non-obtrusive banner ads, but it will never collect, store,"+
+                      " or sell your personal information."+
+                      " Websites accessed during use of this app may have their own consumer data policies."+
+                      "\n\nAny questions, comments, concerns, or suggestions may be emailed to me at"+
+                        " vegout.developer@gmail.com. Thank you for using VegOut!",
                       textAlign: TextAlign.center,)
                 ),
                 Center(

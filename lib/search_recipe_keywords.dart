@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'search_recipe_results.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchRecipeKeywords extends StatefulWidget {
   final myController = TextEditingController();
   final selection;
-  var keywords = "chili";
+  var keywords = "";
 
   SearchRecipeKeywords({ this.selection });
 
@@ -26,7 +27,9 @@ class _SearchRecipeKeywordsState extends State<SearchRecipeKeywords> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Search for Recipes"),
-        backgroundColor: Colors.green,
+        leading: BackButton(
+          color: Colors.deepOrangeAccent,
+        ),
       ),
       body: Center(
           child: Column(
@@ -37,6 +40,7 @@ class _SearchRecipeKeywordsState extends State<SearchRecipeKeywords> {
                 Center(
                     child: TextField(
                         controller: widget.myController,
+                        decoration: InputDecoration(hintText: "Pizza, Smoothie, Caesar Salad, etc..."),
                     ),
                 ),
                 Center(
@@ -45,8 +49,16 @@ class _SearchRecipeKeywordsState extends State<SearchRecipeKeywords> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SearchResults(selection: widget.selection,
-                            keywords: widget.myController.text)),
+                        PageTransition(
+                          curve: Curves.bounceOut,
+                          type: PageTransitionType.rotate,
+                          alignment: Alignment.topCenter,
+                          child: SearchResults(selection: widget.selection,
+                          keywords: widget.myController.text),
+                        ),
+                        //context,
+                        //MaterialPageRoute(builder: (context) => SearchResults(selection: widget.selection,
+                            //keywords: widget.myController.text)),
                       );
                     },
                   ),

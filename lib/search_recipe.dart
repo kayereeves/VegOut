@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'search_recipe_keywords.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchRecipe extends StatefulWidget {
   var selection = "";
-  var keywords = "";
+
   @override
   _SearchRecipeState createState() => _SearchRecipeState();
 }
@@ -15,7 +16,9 @@ class _SearchRecipeState extends State<SearchRecipe> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Search for Recipes"),
-        backgroundColor: Colors.green,
+        leading: BackButton(
+          color: Colors.deepOrangeAccent,
+        ),
       ),
       body: Center(
           child: Column(
@@ -89,7 +92,13 @@ class _SearchRecipeState extends State<SearchRecipe> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SearchRecipeKeywords(selection: widget.selection)),
+                        PageTransition(
+                          curve: Curves.bounceOut,
+                          type: PageTransitionType.rotate,
+                          alignment: Alignment.topCenter,
+                          child: SearchRecipeKeywords(selection: widget.selection),
+                        ),
+                        //MaterialPageRoute(builder: (context) => SearchRecipeKeywords(selection: widget.selection)),
                       );
                     },
                   ),

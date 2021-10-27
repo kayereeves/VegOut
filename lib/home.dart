@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:vegout/saved.dart';
 import 'package:vegout/search_recipe.dart';
-import 'about.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:vegout/about.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,7 +16,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('VegOut Home'),
-        backgroundColor: Colors.green,
       ),
       body: Center(
           child: Column(
@@ -27,7 +28,26 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SearchRecipe()),
+                      PageTransition(
+                        curve: Curves.bounceOut,
+                        type: PageTransitionType.rotate,
+                        alignment: Alignment.topCenter,
+                        child: SearchRecipe(),
+                      ),
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('my saved recipes'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        curve: Curves.bounceOut,
+                        type: PageTransitionType.rotate,
+                        alignment: Alignment.topCenter,
+                        child: Saved(),
+                      ),
                     );
                   },
                 ),
@@ -35,8 +55,13 @@ class _HomeState extends State<Home> {
                   child: Text('about the app'),
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => About()),
+                        context,
+                        PageTransition(
+                        curve: Curves.bounceOut,
+                        type: PageTransitionType.rotate,
+                        alignment: Alignment.topCenter,
+                        child: About(),
+                    ),
                     );
                   },
                 ),
