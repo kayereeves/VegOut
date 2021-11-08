@@ -1,4 +1,4 @@
-//credit for SizeConfig helper code goes to Daniele Cambi @ Medium.com
+//SizeConfig helper code was developed from a tutorial by Daniele Cambi @ Medium.com
 
 import 'package:flutter/widgets.dart';
 
