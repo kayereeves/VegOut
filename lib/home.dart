@@ -34,9 +34,12 @@ class _HomeState extends State<Home> {
     }
 
     _anchoredAdaptiveAd = BannerAd(
-      adUnitId: Platform.isAndroid
-          ? 'ca-app-pub-9635169151246197/8143202064'
-          : 'ca-app-pub-9635169151246197/8143202064',
+      //adUnitId: Platform.isAndroid
+          //? 'ca-app-pub-9635169151246197/8143202064'
+          //: 'ca-app-pub-9635169151246197/8143202064',
+      adUnitId: Platform.isAndroid //demo ad units
+        ? 'ca-app-pub-3940256099942544/6300978111'
+        : 'ca-app-pub-3940256099942544/6300978111',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -136,9 +139,10 @@ class _HomeState extends State<Home> {
                       },
                     )
                 ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 2),
                 if (_anchoredAdaptiveAd != null && _isLoaded)
                   Container(
-                    color: Colors.green,
+                    color: Colors.transparent,
                     width: _anchoredAdaptiveAd!.size.width.toDouble(),
                     height: _anchoredAdaptiveAd!.size.height.toDouble(),
                     child: AdWidget(ad: _anchoredAdaptiveAd!),
