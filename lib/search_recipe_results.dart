@@ -3,14 +3,14 @@ import 'dart:core';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchResults extends StatefulWidget {
-  final selection;
   final keywords;
 
-  SearchResults({ this.selection, this.keywords });
+  SearchResults({ this.keywords });
 
   @override
   _SearchResultsState createState() => _SearchResultsState();
@@ -19,6 +19,51 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   final myController = TextEditingController();
   final GlobalKey webViewKey = GlobalKey();
+
+  BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAd();
+  }
+
+  Future<void> _loadAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+    await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    _anchoredAdaptiveAd = BannerAd(
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-9635169151246197/8143202064'
+          : 'ca-app-pub-9635169151246197/8143202064',
+      size: size,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return _anchoredAdaptiveAd!.load();
+  }
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
@@ -125,7 +170,7 @@ class _SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search Results"),
+        title: Text("Search Results - Powered by Google"),
         leading: BackButton(
           color: Colors.deepOrangeAccent,
         ),
@@ -133,21 +178,6 @@ class _SearchResultsState extends State<SearchResults> {
       body: Center(
           child: Column(
               children: <Widget> [
-                TextField(
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search)
-                  ),
-                  controller: urlController,
-                  keyboardType: TextInputType.url,
-                  onSubmitted: (value) {
-                    var url = Uri.parse(value);
-                    if (url.scheme.isEmpty) {
-                      url = Uri.parse("https://www.google.com/search?q=" + value);
-                    }
-                    webViewController?.loadUrl(
-                        urlRequest: URLRequest(url: url));
-                  },
-                ),
                 Expanded(
                   child: Stack(
                     children: [
@@ -155,8 +185,7 @@ class _SearchResultsState extends State<SearchResults> {
                         key: webViewKey,
                         // contextMenu: contextMenu,
                         initialUrlRequest:
-                        URLRequest(url: Uri.parse("https://www.google.com/search?q="+widget.selection+" "
-                        +widget.keywords+" recipes")),
+                        URLRequest(url: Uri.parse("https://www.google.com/search?q="+widget.keywords+" recipes")),
                         // initialFile: "assets/index.html",
                         initialUserScripts: UnmodifiableListView<UserScript>([]),
                         initialOptions: options,
@@ -168,6 +197,8 @@ class _SearchResultsState extends State<SearchResults> {
                           setState(() {
                             this.url = url.toString();
                             urlController.text = this.url;
+                            controller.evaluateJavascript(source:
+                            "document.getElementsByClassName(\"Fh5muf\")[0].style.display='none';");
                           });
                         },
                         androidOnPermissionRequest: (controller, origin, resources) async {
@@ -228,6 +259,13 @@ class _SearchResultsState extends State<SearchResults> {
                           print(consoleMessage);
                         },
                       ),
+                      if (_anchoredAdaptiveAd != null && _isLoaded)
+                        Container(
+                          color: Colors.green,
+                          width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                          height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                          child: AdWidget(ad: _anchoredAdaptiveAd!),
+                        ),
                       progress < 1.0
                           ? LinearProgressIndicator(value: progress)
                           : Container(),

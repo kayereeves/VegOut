@@ -6,9 +6,10 @@
    <application
         android:label="vegout"
         android:icon="@mipmap/ic_launcher">
-
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyCE6cxltXWouX7_ElL7d5fgz67st2vANYI"/>
+       
+       <meta-data
+           android:name="com.google.android.gms.ads.APPLICATION_ID"
+           android:value="ca-app-pub-9635169151246197~5841021092"/>
 
         <activity
             android:name=".MainActivity"

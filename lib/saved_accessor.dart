@@ -2,15 +2,18 @@ import 'dart:collection';
 import 'dart:core';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vegout/size_config_helper.dart';
 
 class SavedAccessor extends StatefulWidget {
   final webAddress;
+  final note;
 
-  SavedAccessor({ this.webAddress });
+  SavedAccessor({ this.webAddress, this.note });
 
   @override
   _SavedAccessorState createState() => _SavedAccessorState();
@@ -19,6 +22,51 @@ class SavedAccessor extends StatefulWidget {
 class _SavedAccessorState extends State<SavedAccessor> {
   final myController = TextEditingController();
   final GlobalKey webViewKey = GlobalKey();
+
+  BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAd();
+  }
+
+  Future<void> _loadAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+    await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    _anchoredAdaptiveAd = BannerAd(
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-9635169151246197/8143202064'
+          : 'ca-app-pub-9635169151246197/8143202064',
+      size: size,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return _anchoredAdaptiveAd!.load();
+  }
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
@@ -92,6 +140,7 @@ class _SavedAccessorState extends State<SavedAccessor> {
   @override
   void dispose() {
     super.dispose();
+    _anchoredAdaptiveAd?.dispose();
   }
 
   _addFave(note, webAddress) async {
@@ -123,9 +172,10 @@ class _SavedAccessorState extends State<SavedAccessor> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Search Results"),
+          title: Text("Saved Recipe: " + widget.note),
           leading: BackButton(
             color: Colors.deepOrangeAccent,
           ),
@@ -133,21 +183,6 @@ class _SavedAccessorState extends State<SavedAccessor> {
         body: Center(
             child: Column(
                 children: <Widget> [
-                  TextField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search)
-                    ),
-                    controller: urlController,
-                    keyboardType: TextInputType.url,
-                    onSubmitted: (value) {
-                      var url = Uri.parse(value);
-                      if (url.scheme.isEmpty) {
-                        url = Uri.parse(widget.webAddress);
-                      }
-                      webViewController?.loadUrl(
-                          urlRequest: URLRequest(url: url));
-                    },
-                  ),
                   Expanded(
                     child: Stack(
                       children: [
@@ -227,6 +262,13 @@ class _SavedAccessorState extends State<SavedAccessor> {
                             print(consoleMessage);
                           },
                         ),
+                        if (_anchoredAdaptiveAd != null && _isLoaded)
+                          Container(
+                            color: Colors.green,
+                            width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                            height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                            child: AdWidget(ad: _anchoredAdaptiveAd!),
+                          ),
                         progress < 1.0
                             ? LinearProgressIndicator(value: progress)
                             : Container(),
