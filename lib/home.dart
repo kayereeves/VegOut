@@ -34,12 +34,12 @@ class _HomeState extends State<Home> {
     }
 
     _anchoredAdaptiveAd = BannerAd(
-      //adUnitId: Platform.isAndroid
-          //? 'ca-app-pub-9635169151246197/8143202064'
-          //: 'ca-app-pub-9635169151246197/8143202064',
-      adUnitId: Platform.isAndroid //demo ad units
-        ? 'ca-app-pub-3940256099942544/6300978111'
-        : 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-9635169151246197/8143202064'
+          : 'ca-app-pub-9635169151246197/8143202064',
+      //adUnitId: Platform.isAndroid //demo ad units
+        //? 'ca-app-pub-3940256099942544/6300978111'
+        //: 'ca-app-pub-3940256099942544/6300978111',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -70,13 +70,27 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('VegOut'),
-      ),
+      //appBar: AppBar(
+        //title: Text('VegOut'),
+      //),
       body: Center(
           child: Column(
               children: <Widget> [
-                SizedBox(height: SizeConfig.safeBlockVertical * 15),
+                SizedBox(height: SizeConfig.safeBlockVertical * 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
+                      //SizedBox(width: SizeConfig.safeBlockHorizontal * 10),
+                      Text(
+                        "VegOut",
+                        style: TextStyle(color: Colors.deepOrangeAccent,
+                            fontFamily: 'Lobster',
+                            fontSize:
+                            SizeConfig.safeBlockHorizontal * SizeConfig.safeBlockVertical),
+                      ),
+                    ]
+                ),
+                //SizedBox(height: SizeConfig.safeBlockVertical * 10),
                 Container(
                   height: SizeConfig.safeBlockVertical * 25,
                   width: SizeConfig.safeBlockHorizontal * 50,
@@ -139,7 +153,7 @@ class _HomeState extends State<Home> {
                       },
                     )
                 ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 2),
+                SizedBox(height: SizeConfig.safeBlockVertical * 10),
                 if (_anchoredAdaptiveAd != null && _isLoaded)
                   Container(
                     color: Colors.transparent,

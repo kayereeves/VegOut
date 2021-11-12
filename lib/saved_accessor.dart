@@ -26,7 +26,7 @@ class _SavedAccessorState extends State<SavedAccessor> {
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
 
-  @override
+  //@override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _loadAd();
@@ -44,12 +44,12 @@ class _SavedAccessorState extends State<SavedAccessor> {
     }
 
     _anchoredAdaptiveAd = BannerAd(
-      //adUnitId: Platform.isAndroid
-      //? 'ca-app-pub-9635169151246197/8143202064'
-      //: 'ca-app-pub-9635169151246197/8143202064',
-      adUnitId: Platform.isAndroid //demo ad units
-          ? 'ca-app-pub-3940256099942544/6300978111'
-          : 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: Platform.isAndroid
+      ? 'ca-app-pub-9635169151246197/8143202064'
+      : 'ca-app-pub-9635169151246197/8143202064',
+      //adUnitId: Platform.isAndroid //demo ad units
+          //? 'ca-app-pub-3940256099942544/6300978111'
+          //: 'ca-app-pub-3940256099942544/6300978111',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -177,15 +177,33 @@ class _SavedAccessorState extends State<SavedAccessor> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Saved Recipe: " + widget.note),
-          leading: BackButton(
-            color: Colors.deepOrangeAccent,
-          ),
-        ),
         body: Center(
             child: Column(
                 children: <Widget> [
+                  SizedBox(height: SizeConfig.safeBlockVertical * 12),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget> [
+                        BackButton(
+                          color: Colors.deepOrangeAccent,
+                        ),
+                        Text(
+                          "Saved Recipe",
+                          style: TextStyle(color: Colors.deepOrangeAccent,
+                              fontFamily: 'Lobster',
+                              fontSize:
+                              SizeConfig.safeBlockHorizontal * SizeConfig.safeBlockVertical * 0.5),
+                        ),
+                        SizedBox(width: SizeConfig.safeBlockHorizontal * 3),
+                        ElevatedButton(
+                          child: Icon(Icons.favorite),
+                          onPressed: () {
+                            _displayTextInputDialog(context);
+                          },
+                        ),
+                      ]
+                  ),
+                  SizedBox(height: SizeConfig.safeBlockVertical * 3),
                   Expanded(
                     child: Stack(
                       children: [
@@ -279,35 +297,9 @@ class _SavedAccessorState extends State<SavedAccessor> {
                       ],
                     ),
                   ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        child: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          webViewController?.goBack();
-                        },
-                      ),
-                      ElevatedButton(
-                        child: Icon(Icons.arrow_forward),
-                        onPressed: () {
-                          webViewController?.goForward();
-                        },
-                      ),
-                      ElevatedButton(
-                        child: Icon(Icons.refresh),
-                        onPressed: () {
-                          webViewController?.reload();
-                        },
-                      ),
-                      ElevatedButton(
-                        child: Icon(Icons.favorite),
-                        onPressed: () {
-                          _displayTextInputDialog(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ])));
+                ]
+            )
+        )
+    );
   }
 }

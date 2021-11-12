@@ -31,12 +31,12 @@ class _AboutState extends State<About> {
     }
 
     _anchoredAdaptiveAd = BannerAd(
-      //adUnitId: Platform.isAndroid
-      //? 'ca-app-pub-9635169151246197/8143202064'
-      //: 'ca-app-pub-9635169151246197/8143202064',
-      adUnitId: Platform.isAndroid //demo ad units
-          ? 'ca-app-pub-3940256099942544/6300978111'
-          : 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: Platform.isAndroid
+      ? 'ca-app-pub-9635169151246197/8143202064'
+      : 'ca-app-pub-9635169151246197/8143202064',
+      //adUnitId: Platform.isAndroid //demo ad units
+          //? 'ca-app-pub-3940256099942544/6300978111'
+          //: 'ca-app-pub-3940256099942544/6300978111',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -67,16 +67,28 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("About"),
-        leading: BackButton(
-            color: Colors.deepOrangeAccent,
-        ),
-      ),
+      //appBar: AppBar(title: Text("About"),
+          //leading: BackButton(
+            //color: Colors.deepOrangeAccent,)),
       body: Center(
           child: Column(
               children: <Widget> [
-                SizedBox(height: SizeConfig.safeBlockVertical * 35),
+                SizedBox(height: SizeConfig.safeBlockVertical * 12),
+                Row(
+                    children: <Widget> [
+                      BackButton(
+                        color: Colors.deepOrangeAccent,
+                      ),
+                      Text(
+                        "About the App",
+                        style: TextStyle(color: Colors.deepOrangeAccent,
+                            fontFamily: 'Lobster',
+                            fontSize:
+                            SizeConfig.safeBlockHorizontal * SizeConfig.safeBlockVertical * 0.5),
+                      ),
+                    ]
+                ),
+                SizedBox(height: SizeConfig.safeBlockVertical * 5),
                 Container(
                     height: SizeConfig.safeBlockVertical * 35,
                     width: SizeConfig.safeBlockHorizontal * 70,
@@ -86,7 +98,7 @@ class _AboutState extends State<About> {
                         " vegout.developer@gmail.com. thank you for using VegOut!",
                       textAlign: TextAlign.center,)
                 ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 2),
+                SizedBox(height: SizeConfig.safeBlockVertical * 10),
                 if (_anchoredAdaptiveAd != null && _isLoaded)
                   Container(
                     color: Colors.transparent,

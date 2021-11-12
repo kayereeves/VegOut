@@ -36,12 +36,12 @@ class _SavedState extends State<Saved> {
     }
 
     _anchoredAdaptiveAd = BannerAd(
-      //adUnitId: Platform.isAndroid
-      //? 'ca-app-pub-9635169151246197/8143202064'
-      //: 'ca-app-pub-9635169151246197/8143202064',
-      adUnitId: Platform.isAndroid //demo ad units
-          ? 'ca-app-pub-3940256099942544/6300978111'
-          : 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: Platform.isAndroid
+      ? 'ca-app-pub-9635169151246197/8143202064'
+      : 'ca-app-pub-9635169151246197/8143202064',
+      //adUnitId: Platform.isAndroid //demo ad units
+          //? 'ca-app-pub-3940256099942544/6300978111'
+          //: 'ca-app-pub-3940256099942544/6300978111',
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -92,15 +92,14 @@ class _SavedState extends State<Saved> {
       print(keys.length.toString());
       savedList.add(
         new Container(
-          height: SizeConfig.safeBlockVertical * 7,
+          height: SizeConfig.safeBlockVertical * 8,
           width: SizeConfig.safeBlockHorizontal * 30,
-          child: new ElevatedButton(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+          child: ElevatedButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget> [
-                    Text(keys.elementAt(i)),
                     new IconButton(
-                      icon: const Icon(Icons.add),
+                      icon: const Icon(Icons.block),
                       onPressed: () {
                         prefs.remove(keys.elementAt(i));
                         //setState(() {});
@@ -115,7 +114,8 @@ class _SavedState extends State<Saved> {
                           ),
                         );
                     }
-                    )
+                    ),
+                    Text(keys.elementAt(i)),
                   ]
               ),
               onPressed: () {
@@ -130,8 +130,8 @@ class _SavedState extends State<Saved> {
                   ),
                 );
               }
+          ),
           )
-        )
       );
     }
     setState(() {});
@@ -144,22 +144,38 @@ class _SavedState extends State<Saved> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Saved Recipes'),
-      ),
+      //appBar: AppBar(
+        //title: Text('Saved Recipes'),
+      //),
         body: new Column(
           children: <Widget>[
-            SizedBox(height: SizeConfig.safeBlockVertical * 40),
+            SizedBox(height: SizeConfig.safeBlockVertical * 12),
+            Row(
+                children: <Widget> [
+                  BackButton(
+                    color: Colors.deepOrangeAccent,
+                  ),
+                  Text(
+                    "Saved Recipes",
+                    style: TextStyle(color: Colors.deepOrangeAccent,
+                        fontFamily: 'Lobster',
+                        fontSize:
+                        SizeConfig.safeBlockHorizontal * SizeConfig.safeBlockVertical * 0.5),
+                  ),
+                ]
+            ),
+            SizedBox(height: SizeConfig.safeBlockVertical * 5),
             new Expanded(
                 child: new ListView.builder
                   (
                     itemCount: savedList.length,
+                    padding: EdgeInsets.all(8.0),
                     itemBuilder: (BuildContext ctxt, int Index) {
                       return savedList[Index] as Container;
                     }
                 )
             ),
-            SizedBox(height: SizeConfig.safeBlockVertical * 2),
+            SizedBox(height: SizeConfig.safeBlockVertical * 10),
             if (_anchoredAdaptiveAd != null && _isLoaded)
               Container(
                 color: Colors.transparent,
