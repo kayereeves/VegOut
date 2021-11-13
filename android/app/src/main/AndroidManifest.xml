@@ -1,7 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vegout.vegout">
+
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
+
    <application
-        android:label="vegout"
+        android:label="VegOut"
         android:icon="@mipmap/ic_launcher">
 
        <meta-data
